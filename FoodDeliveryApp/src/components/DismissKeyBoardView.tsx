@@ -4,7 +4,6 @@ import {
   Keyboard,
   StyleProp,
   ViewStyle,
-  KeyboardAvoidingView,
   Platform,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'

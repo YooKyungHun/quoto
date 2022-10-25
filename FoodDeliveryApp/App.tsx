@@ -8,61 +8,18 @@ import Delivery from './src/pages/Delivery';
 import {useState} from 'react';
 import SignIn from './src/pages/SignIn';
 import SignUp from './src/pages/SignUp';
-
-export type LoggedInParamList = {
-  Orders: undefined;
-  Settings: undefined;
-  Delivery: undefined;
-  Complete: {orderId: string};
-  // 페이지: 페이지의 parameter 혹은 해당 페이지로 넘겨줄 것
-
-};
-
-export type RootStackParamList = {
-  SignIn: undefined;
-  SignUp: undefined;
-};
-
-const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator<RootStackParamList>();
+import store from './src/store';
+import {Provider, useSelector} from 'react-redux';
+import {RootState} from './src/store/reducer';
+import AppInner from './AppInner';
 
 function App() {
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  // provider 밖에서는 useSelector 를 사용할 수 없음. -> AppInner 사용
+  // const [isLoggedIn, setLoggedIn] = useState(false);
   return (
-    <NavigationContainer>
-      {isLoggedIn ? (
-        <Tab.Navigator>
-          <Tab.Screen
-            name="Orders"
-            component={Orders}
-            options={{title: '오더 목록'}}
-          />
-          <Tab.Screen
-            name="Delivery"
-            component={Delivery}
-            options={{headerShown: false}}
-          />
-          <Tab.Screen
-            name="Settings"
-            component={Settings}
-            options={{title: '내 정보'}}
-          />
-        </Tab.Navigator>
-      ) : (
-        <Stack.Navigator>
-          <Stack.Screen
-            name="SignIn"
-            component={SignIn}
-            options={{title: '로그인'}}
-          />
-          <Stack.Screen
-            name="SignUp"
-            component={SignUp}
-            options={{title: '회원가입'}}
-          />
-        </Stack.Navigator>
-      )}
-    </NavigationContainer>
+    <Provider store={store}>
+      <AppInner />
+    </Provider>
   );
 }
 
